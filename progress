@@ -1,0 +1,26 @@
+ssh 128.199.32.9 -l root -i ~/.ssh/id_rsa
+ssh 104.248.194.235 -l root -i ~/.ssh/id_rsa
+ssh 104.248.197.218 -l root -i ~/.ssh/id_rsa
+ssh 104.248.203.128 -l root -i ~/.ssh/id_rsa
+git clone https://github.com/ak-tntv/Kubernetes
+./install-docker.sh
+./install-kubernetes.sh
+./install-pod-network.sh
+kubeadm join 128.199.32.9:6443 --token ca4128.bp5fbgop1iy59t0t --discovery-token-ca-cert-hash sha256:d46980cece343e2a43b4c3d9545d4569fd1f3a7624f1d794b702559561e8c22e
+kubectl get nodes
+cd /etc/kubernetes/
+cat admin.conf
+kubectl get pods --all-namespaces
+kubectl create -f operator.yaml
+kubectl create -f cluster.yaml
+kubectl create -f storageclass.yaml
+kubectl create -f dashboard-external.yaml
+kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o yaml | grep "password:" | awk '{print $2}' | base64 --decode
+TVnsFnsjoH
+https://104.248.194.235:30680/#/login
+kubectl create -f kube-logging.yaml
+kubectl create -f fluentd.yaml
+kubectl create -f elasticsearch_svc.yaml
+kubectl create -f elasticsearch_statefulset.yaml
+kubectl create -f kibana.yaml
+kubectl port-forward kibana-87b7b8cdd-jl6gl 5601:5601 --namespace=kube-logging
